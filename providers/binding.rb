@@ -23,7 +23,7 @@ include RabbitMQ::Management
 
 def initialize(new_resource, run_context)
   super
-  @client      = rabbitmq_client
+  
   @vhost       = new_resource.vhost
   @exchange    = new_resource.exchange
   @queue       = new_resource.queue
@@ -33,6 +33,7 @@ def initialize(new_resource, run_context)
 end
 
 action :declare do
+  @client      = rabbitmq_client
   # See http://www.rabbitmq.com/access-control.html for a more in-depth
   # explanation of these permissions. Full access is required to bind a queue
   # to an exchange.
@@ -54,5 +55,6 @@ action :declare do
 end
 
 action :delete do
+  @client      = rabbitmq_client
   @client.delete_queue_binding(@vhost, @queue, @exchange, @props_key)
 end

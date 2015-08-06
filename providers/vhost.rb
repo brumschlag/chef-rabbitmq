@@ -23,11 +23,12 @@ include RabbitMQ::Management
 
 def initialize(new_resource, run_context)
   super
-  @client  = rabbitmq_client
+  
   @vhost   = new_resource.vhost
 end
 
 action :add do
+  @client  = rabbitmq_client
   @client.create_vhost(@vhost)
   @client.update_permissions_of(
     @vhost,
@@ -39,5 +40,6 @@ action :add do
 end
 
 action :delete do
+  @client  = rabbitmq_client
   @client.delete_vhost(@vhost)
 end
